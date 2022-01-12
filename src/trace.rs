@@ -1,5 +1,4 @@
 
-
 pub type Floats = [f32; 4];
 
 pub fn vector(x: f32, y: f32, z: f32) -> Floats {
@@ -25,8 +24,8 @@ pub fn eq(left: &Floats, right: &Floats) -> bool {
 }
 
 pub fn add(left: &Floats, right: &Floats) -> Floats {
-    let mut pairs = left.iter().zip(right.iter());
-    let mut almost = pairs.map(|(l,r)| l+r).enumerate();
+    let pairs = left.iter().zip(right.iter());
+    let almost = pairs.map(|(l,r)| l+r).enumerate();
     let mut res = [0.0; 4];
     for (ii, val) in almost {
         res[ii] = val;
@@ -35,8 +34,8 @@ pub fn add(left: &Floats, right: &Floats) -> Floats {
 }
 
 pub fn subtract(left: &Floats, right: &Floats) -> Floats {
-    let mut pairs = left.iter().zip(right.iter());
-    let mut almost = pairs.map(|(l,r)| l-r).enumerate();
+    let pairs = left.iter().zip(right.iter());
+    let almost = pairs.map(|(l,r)| l-r).enumerate();
     let mut res = [0.0; 4];
     for (ii, val) in almost {
         res[ii] = val;
@@ -45,7 +44,7 @@ pub fn subtract(left: &Floats, right: &Floats) -> Floats {
 }
 
 pub fn scale(left: &Floats, right: f32) -> Floats {
-    let mut almost = left.iter().map(|l| l * right).enumerate();
+    let almost = left.iter().map(|l| l * right).enumerate();
     let mut res = [0.0; 4];
     for (ii, val) in almost {
         res[ii] = val;
@@ -54,15 +53,20 @@ pub fn scale(left: &Floats, right: f32) -> Floats {
 }
 
 pub fn dot(left: &Floats, right: &Floats) -> f32 {
-    let mut pairs = left.iter().zip(right.iter());
+    let pairs = left.iter().zip(right.iter());
     pairs.map(|(l,r)| l*r).sum()
 }
 
 pub fn cross(left: &Floats, right: &Floats) -> Floats {
-    let x = left[1]*right[2] - left[2]*right[2];
+    let x = left[1]*right[2] - left[2]*right[1];
     let y = left[2]*right[0] - left[0]*right[2];
     let z = left[0]*right[1] - left[1]*right[0];
     vector(x, y, z)
+}
+
+pub fn magnatude(val: &Floats) -> f32 {
+    let s: f32 = val.iter().map(|x| x*x).sum();
+    s.sqrt()
 }
 
 #[cfg(test)]
@@ -126,4 +130,34 @@ mod tests {
         assert_eq!(res, exp);
     }
 
+    #[test]
+    fn test_magnatude() {
+        let fteen: f32 = 14.0;
+        let exp = fteen.sqrt();
+        assert_eq!( magnatude(&vector(1.0, 0.0, 0.0)), 1.0);
+        assert_eq!( magnatude(&vector(0.0, 1.0, 0.0)), 1.0);
+        assert_eq!( magnatude(&vector(0.0, 0.0, 1.0)), 1.0);
+        assert_eq!( magnatude(&vector(1.0, 2.0, 3.0)), exp);
+        assert_eq!( magnatude(&vector(-1.0, -2.0, -3.0)), exp);
+    }
+
+    #[test]
+    fn test_scale() {
+        let initial = vector(1.0, 0.0, 0.0);
+        assert_eq!( magnatude(&initial), 1.0);
+        let scaled = scale(&initial, 5.0);
+        assert_eq!( magnatude(&scaled), 5.0);
+        assert_eq!( scaled[0], 5.0);
+    }
+
+    #[test]
+    fn test_cross() {
+        let a = vector(1.0, 2.0, 3.0);
+        let b = vector(2.0, 3.0, 4.0);
+        let c = vector(-1.0, 2.0, -1.0);
+        let d = vector(1.0, -2.0, 1.0);
+        assert!(eq(&cross(&a,&b), &c));
+        assert!(eq(&cross(&b,&a), &d));
+    }
 }
+
