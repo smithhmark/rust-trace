@@ -64,6 +64,13 @@ pub fn cross(left: &Floats, right: &Floats) -> Floats {
     vector(x, y, z)
 }
 
+pub fn blend(left: &Floats, right: &Floats) -> Floats {
+    let x = left[0]*right[0];
+    let y = left[1]*right[1];
+    let z = left[2]*right[2];
+    point(x, y, z)
+}
+
 pub fn magnatude(val: &Floats) -> f32 {
     let s: f32 = val.iter().map(|x| x*x).sum();
     s.sqrt()
