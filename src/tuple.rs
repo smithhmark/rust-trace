@@ -28,6 +28,17 @@ impl<T: Zero + One> Tuple<T> {
         }
     }
 }
+
+impl<T: Mul<Output = T> + Add<Output = T> + Copy> Tuple<T> {
+    fn dot(&self, right: &Self) -> T {
+        let x = self.x * right.x;
+        let y = self.y * right.y;
+        let z = self.z * right.z;
+        let w = self.w * right.w;
+        x + y + z + w
+    }
+}
+
 impl<T: Add<Output = T>> Add for Tuple<T> {
     type Output = Self;
 
@@ -117,5 +128,40 @@ mod tests {
             w: 2.0,
         };
         assert_eq!(rcvd, expt);
+    }
+
+    #[test]
+    fn test_subtract() {
+        let left: Tuple<f32> = Tuple {
+            x: 0.2,
+            y: 0.4,
+            z: 0.6,
+            w: 0.8,
+        };
+        let right: Tuple<f32> = Tuple {
+            x: 0.1,
+            y: 0.2,
+            z: 0.3,
+            w: 0.4,
+        };
+        let exp: Tuple<f32> = Tuple {
+            x: 0.1,
+            y: 0.2,
+            z: 0.3,
+            w: 0.4,
+        };
+        let res = left - right;
+        assert_eq!(res, exp);
+    }
+
+    #[test]
+    fn test_dot() {
+        let left: Tuple<usize> = Tuple::vector(1, 2, 3);
+        let right = Tuple::vector(2, 3, 4);
+        let exp = 20;
+        let res = Tuple::dot(&left, &right);
+        assert_eq!(res, exp);
+        let res = left.dot(&right);
+        assert_eq!(res, exp);
     }
 }
