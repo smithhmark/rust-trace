@@ -13,7 +13,7 @@ where
 /// this is a bad idea ###
 pub fn cross<T>(left: &[T], right: &[T]) -> Vec<T>
 where
-    T: Mul<Output = T> + Sum + Copy + Sub<Output=T>,
+    T: Mul<Output = T> + Sum + Copy + Sub<Output = T>,
 {
     let mut out = vec![];
     let x = left[1] * right[2] - left[2] * right[1];
