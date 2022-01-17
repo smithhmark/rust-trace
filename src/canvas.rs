@@ -1,17 +1,16 @@
-use super::color;
+use super::color::{black, Color};
 
 pub struct Canvas {
     width: usize,
     height: usize,
-    pixels: Vec<color::Color>,
+    pixels: Vec<Color>,
 }
 
 pub fn new_canvas(width: usize, height: usize) -> Canvas {
     let size = width * height;
     let mut v = Vec::with_capacity(size);
-    let black = color::color(0, 0, 0);
     for _i in 0..size {
-        v.push(black);
+        v.push(black());
     }
     Canvas {
         width,

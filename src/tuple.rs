@@ -3,14 +3,14 @@ use std::ops::{Add, Mul, Sub};
 
 #[derive(Debug, PartialEq)]
 pub struct Tuple<T> {
-    x: T,
-    y: T,
-    z: T,
-    w: T,
+    pub x: T,
+    pub y: T,
+    pub z: T,
+    pub w: T,
 }
 
 impl<T: Zero + One> Tuple<T> {
-    fn vector(x: T, y: T, z: T) -> Tuple<T> {
+    pub fn vector(x: T, y: T, z: T) -> Tuple<T> {
         Tuple {
             x,
             y,
@@ -19,7 +19,7 @@ impl<T: Zero + One> Tuple<T> {
         }
     }
 
-    fn point(x: T, y: T, z: T) -> Tuple<T> {
+    pub fn point(x: T, y: T, z: T) -> Tuple<T> {
         Tuple {
             x,
             y,
