@@ -3,17 +3,21 @@ use super::color;
 pub struct Canvas {
     width: usize,
     height: usize,
-    pixels: Vec<color::Color>
+    pixels: Vec<color::Color>,
 }
 
 pub fn new_canvas(width: usize, height: usize) -> Canvas {
     let size = width * height;
     let mut v = Vec::with_capacity(size);
-    let black = color::color(0,0,0);
+    let black = color::color(0, 0, 0);
     for _i in 0..size {
         v.push(black);
     }
-    Canvas{ width, height, pixels:v}
+    Canvas {
+        width,
+        height,
+        pixels: v,
+    }
 }
 
 #[cfg(test)]
@@ -24,9 +28,9 @@ mod tests {
     fn test_build_canvas() {
         let w = 4;
         let h = 3;
-        let c = new_canvas( w, h);
+        let c = new_canvas(w, h);
         assert_eq!(c.width, w);
         assert_eq!(c.height, h);
-        assert_eq!(c.pixels.len(), w*h);
+        assert_eq!(c.pixels.len(), w * h);
     }
 }
