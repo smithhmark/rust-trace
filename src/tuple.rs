@@ -48,6 +48,16 @@ impl<T: Mul<Output = T> + Sub<Output = T> + Copy + Zero + One> Tuple<T> {
     }
 }
 
+impl<T: Mul<Output = T> + Copy> Tuple<T> {
+    pub fn hadamard(&self, rhs: &Self) -> Self {
+        let x = self.x * rhs.x;
+        let y = self.y * rhs.y;
+        let z = self.z * rhs.z;
+        let w = self.w * rhs.w;
+        Tuple { x, y, z, w }
+    }
+}
+
 impl<T: Add<Output = T>> Add for Tuple<T> {
     type Output = Self;
 
@@ -74,7 +84,17 @@ impl<T: Sub<Output = T>> Sub for Tuple<T> {
     }
 }
 
-impl<T> Tuple<T> where T: Mul<Output = T> + Add<Output = T> + Sub<Output = T> {}
+impl<T: Mul<Output = T> + Copy> Mul<T> for Tuple<T> {
+    type Output = Self;
+
+    fn mul(self, rhs: T) -> Self {
+        let x = self.x * rhs;
+        let y = self.y * rhs;
+        let z = self.z * rhs;
+        let w = self.w * rhs;
+        Tuple { x, y, z, w }
+    }
+}
 
 #[cfg(test)]
 mod tests {
@@ -182,5 +202,20 @@ mod tests {
         let d: Tuple<i32> = Tuple::vector(1, -2, 1);
         assert_eq!(a.cross(&b), c);
         assert_eq!(b.cross(&a), d);
+    }
+
+    #[test]
+    fn test_hadamard() {
+        let a: Tuple<i32> = Tuple::vector(1, 2, 3);
+        let b: Tuple<i32> = Tuple::vector(1, 1, 1);
+        assert_eq!(a.hadamard(&b), a);
+    }
+
+    #[test]
+    fn test_mul() {
+        let a: Tuple<i32> = Tuple::vector(1, 2, 3);
+        let b: Tuple<i32> = Tuple::vector(2, 4, 6);
+        let val: i32 = 2;
+        assert_eq!(a * val, b);
     }
 }
