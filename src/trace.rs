@@ -166,5 +166,12 @@ mod tests {
         assert!(eq(&cross(&a,&b), &c));
         assert!(eq(&cross(&b,&a), &d));
     }
+
+    #[test]
+    fn test_blend() {
+        let a = point(1.0, 1.0, 1.0);
+        let b = point(2.0, 3.0, 4.0);
+        assert_eq!(&blend(&a,&b), &b);
+    }
 }
 
