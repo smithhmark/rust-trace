@@ -1,7 +1,8 @@
 mod canvas;
 mod color;
-mod math;
-mod trace;
+//mod math;
+//mod trace;
+mod projectile;
 mod tuple;
 
 fn main() {

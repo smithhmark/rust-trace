@@ -1,7 +1,7 @@
 use num::{One, Zero};
 use std::ops::{Add, Mul, Sub};
 
-#[derive(Debug, PartialEq)]
+#[derive(Copy, Clone, Debug, PartialEq)]
 pub struct Tuple<T> {
     pub x: T,
     pub y: T,
