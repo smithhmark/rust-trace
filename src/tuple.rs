@@ -96,6 +96,14 @@ impl<T: Mul<Output = T> + Copy> Mul<T> for Tuple<T> {
     }
 }
 
+impl<T: Mul<Output = T> + Copy> Mul for Tuple<T> {
+    type Output = Self;
+
+    fn mul(self, rhs: Self) -> Self {
+        self.hadamard(&rhs)
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -212,10 +220,18 @@ mod tests {
     }
 
     #[test]
-    fn test_mul() {
+    fn test_mul_scaling() {
         let a: Tuple<i32> = Tuple::vector(1, 2, 3);
         let b: Tuple<i32> = Tuple::vector(2, 4, 6);
         let val: i32 = 2;
         assert_eq!(a * val, b);
+    }
+
+    #[test]
+    fn test_mul_hadamard() {
+        let a: Tuple<i32> = Tuple::vector(1, 2, 3);
+        let b: Tuple<i32> = Tuple::vector(2, 2, 2);
+        let exp: Tuple<i32> = Tuple::vector(2, 4, 6);
+        assert_eq!(a * b, exp);
     }
 }
