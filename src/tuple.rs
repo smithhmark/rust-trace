@@ -39,6 +39,15 @@ impl<T: Mul<Output = T> + Add<Output = T> + Copy> Tuple<T> {
     }
 }
 
+impl<T: Mul<Output = T> + Sub<Output = T> + Copy + Zero + One> Tuple<T> {
+    pub fn cross(&self, right: &Self) -> Self {
+        let x = self.y * right.z - self.z * right.y;
+        let y = self.z * right.x - self.x * right.z;
+        let z = self.x * right.y - self.y * right.x;
+        Tuple::vector(x, y, z)
+    }
+}
+
 impl<T: Add<Output = T>> Add for Tuple<T> {
     type Output = Self;
 
@@ -163,5 +172,15 @@ mod tests {
         assert_eq!(res, exp);
         let res = left.dot(&right);
         assert_eq!(res, exp);
+    }
+
+    #[test]
+    fn test_cross() {
+        let a: Tuple<i32> = Tuple::vector(1, 2, 3);
+        let b: Tuple<i32> = Tuple::vector(2, 3, 4);
+        let c: Tuple<i32> = Tuple::vector(-1, 2, -1);
+        let d: Tuple<i32> = Tuple::vector(1, -2, 1);
+        assert_eq!(a.cross(&b), c);
+        assert_eq!(b.cross(&a), d);
     }
 }
