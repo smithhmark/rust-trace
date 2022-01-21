@@ -1,6 +1,6 @@
 use super::tuple::Tuple;
 
-type ITuple = Tuple<i32>;
+pub type ITuple = Tuple<i32>;
 
 pub struct Projectile {
     pub position: ITuple,
