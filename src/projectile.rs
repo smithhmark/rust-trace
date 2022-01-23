@@ -2,16 +2,18 @@ use super::tuple::Tuple;
 
 pub type ITuple = Tuple<i32>;
 
+#[derive(Debug, PartialEq)]
 pub struct Projectile {
     pub position: ITuple,
     pub velocity: ITuple,
 }
 
+#[derive(Debug)]
 pub struct World {
-    projectiles: Vec<Projectile>,
-    gravity: ITuple,
-    wind: ITuple,
-    extent: ITuple,
+    pub projectiles: Vec<Projectile>,
+    pub gravity: ITuple,
+    pub wind: ITuple,
+    pub extent: ITuple,
 }
 
 fn within(pos: &ITuple, region: &ITuple) -> bool {
@@ -35,14 +37,23 @@ fn within(pos: &ITuple, region: &ITuple) -> bool {
 }
 
 impl World {
+    pub fn new(wind: ITuple, gravity: ITuple, extent: ITuple) -> Self {
+        World {
+            wind,
+            gravity,
+            extent,
+            projectiles: vec![],
+        }
+    }
+
     pub fn tick(&mut self) -> usize {
         let mut updated: usize = 0;
         for proj in self.projectiles.iter_mut() {
             if within(&proj.position, &self.extent) {
                 let new_pos = proj.position + proj.velocity;
-                println!("{:?}", new_pos);
+                //println!("{:?}", new_pos);
                 let new_vel = proj.velocity + self.wind + self.gravity;
-                println!("{:?}", new_vel);
+                //println!("new velocity={:?}", new_vel);
                 proj.position = new_pos;
                 proj.velocity = new_vel;
                 updated += 1;
