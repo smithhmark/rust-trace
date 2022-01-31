@@ -30,6 +30,13 @@ impl<T: Zero + One> Tuple<T> {
 }
 
 impl<T: Mul<Output = T> + Add<Output = T> + Copy> Tuple<T> {
+    fn magnatude(&self) -> T {
+        let x = self.x * right.x;
+        let y = self.y * right.y;
+        let z = self.z * right.z;
+        let w = self.w * right.w;
+        x + y + z + w
+
     fn dot(&self, right: &Self) -> T {
         let x = self.x * right.x;
         let y = self.y * right.y;
